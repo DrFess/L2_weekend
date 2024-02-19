@@ -1140,7 +1140,7 @@ def save_results(connect, pk, pk_2, local_status, history_number):
                                 'title': 'Диагноз клинический',
                                 'hide': False,
                                 'values_to_input': [],
-                                'value': 'Закрытый перелом в\\3 левой бедренной кости со смещением.',
+                                'value': '',
                                 'field_type': 14,
                                 'can_edit': False,
                                 'default_value': '1878|1856',

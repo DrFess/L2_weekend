@@ -28,5 +28,5 @@ for history_number in patients:
     except Exception as e:
         print(f'Error: {e}')
         continue
-
+print('Дневники созданы, проверяй')
 session.close()
