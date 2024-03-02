@@ -2,6 +2,8 @@ from datetime import datetime
 import random
 
 import gspread
+import requests
+from bs4 import BeautifulSoup
 
 
 def get_patients_from_table(interval: str) -> list:
@@ -153,7 +155,7 @@ def data_by_fields(connect, pk):
     return response.json()
 
 
-def save_results(connect, pk, pk_2, local_status, history_number):
+def save_results(connect, pk, pk_2, local_status, history_number, what_inspection):
 
     headers = {
         'Accept': 'application/json, text/plain, */*',
@@ -206,7 +208,7 @@ def save_results(connect, pk, pk_2, local_status, history_number):
                                     'дежурным травматологом-ортопедом',
                                     'оперирующим врачом (Предоперационный эпикриз)',
                                 ],
-                                'value': 'лечащим врачом',
+                                'value': what_inspection,
                                 'field_type': 12,
                                 'can_edit': False,
                                 'default_value': '',
@@ -2954,3 +2956,26 @@ def get_list_pk(connect, history_number):
         verify=False,
     )
     return response.json()
+
+
+def get_weekend_and_holidays(year) -> dict:
+
+    data = requests.get(f'https://www.consultant.ru/law/ref/calendar/proizvodstvennye/{year}/').text
+
+    soup = BeautifulSoup(data, 'html.parser')
+
+    days = soup.findAll('table', class_='cal')
+    month = 0
+    weekends_and_holidays = {}
+    for day in days:
+        month += 1
+        item = day.find_all('td', class_='weekend')
+        list_days = []
+        for i in item:
+            list_days.append(i.text)
+        weekends_and_holidays[month] = list_days
+
+    return weekends_and_holidays
+
+
+print(get_weekend_and_holidays('2024'))
