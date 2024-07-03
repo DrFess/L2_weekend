@@ -16,15 +16,14 @@ session = requests.Session()
 
 authorization = authorization_l2(session, login=login_l2, password=password_l2)
 
-patients = get_patients_from_table('C3:C43')
-patients_out_of_stock = get_patients_from_table('K3:K43')
+patients = get_patients_from_table('C3:C42')
+patients_out_of_stock = get_patients_from_table('K3:K42')
 patients.extend(patients_out_of_stock)
 for history_number in patients:
     try:
         data = add_diaries(session, int(history_number))
         pk = data.get('pk')
         data_1 = get_pk(session, pk)
-
         date_str = data_1.get('direction').get('date')
         date_list = date_str.split('.')
         holidays_and_weekend_in_month = holidays_and_weekend.get(int(date_list[1]))
@@ -62,10 +61,11 @@ for history_number in patients:
                 history_number=history_number,
                 what_inspection='лечащим врачом'
             )
-        print(f'Дневник для истории №{history_number} создан')
         time.sleep(2)
+    except IndexError:
+        pass
     except Exception as e:
         print(f'Error: {e}')
-        continue
+
 print('Дневники созданы, проверяй')
 session.close()

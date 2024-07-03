@@ -5,11 +5,13 @@ import gspread
 import requests
 from bs4 import BeautifulSoup
 
+from settings import GOOGLE_TABLE_KEY
+
 
 def get_patients_from_table(interval: str) -> list:
     """Получение списка номеров выписанных историй из сводной гугл-таблице"""
     gs = gspread.service_account(filename='access.json')
-    sh = gs.open_by_key('1feNhDOpE41gwPwuvtW_V5kZH2hFSt9qc8gZvmoH2UIE')
+    sh = gs.open_by_key(GOOGLE_TABLE_KEY)
 
     worksheet = sh.get_worksheet_by_id(0)
 
@@ -172,11 +174,11 @@ def save_results(connect, pk, pk_2, local_status, history_number, what_inspectio
     json_data = {
         'force': True,
         'data': {
-            'pk': pk_2, # pk созданного дневника
+            'pk': pk_2,  # pk созданного дневника
             'research': {
                 'pk': 472,
                 'title': 'Осмотр',
-                'version': int(f'{pk_2}0000'), # pk + ???
+                'version': int(f'{pk_2}0000'),  # pk + ???
                 'is_paraclinic': False,
                 'is_doc_refferal': False,
                 'is_gistology': False,
@@ -277,7 +279,7 @@ def save_results(connect, pk, pk_2, local_status, history_number, what_inspectio
                                 'title': 'Время осмотра',
                                 'hide': False,
                                 'values_to_input': [],
-                                'value': '10:00',
+                                'value': f'{random.randint(9, 12)}:{random.randint(10, 59)}',
                                 'field_type': 20,
                                 'can_edit': False,
                                 'default_value': '',
@@ -2978,4 +2980,28 @@ def get_weekend_and_holidays(year) -> dict:
     return weekends_and_holidays
 
 
-print(get_weekend_and_holidays('2024'))
+def get_first_research(connect, pk: int):
+    """Получить данные из первичного осмотра"""
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Content-Type': 'application/json',
+        'DNT': '1',
+        'Origin': 'http://192.168.10.161',
+        'Proxy-Connection': 'keep-alive',
+        'Referer': 'http://192.168.10.161/ui/stationar',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    }
+
+    json_data = {
+        'pk': pk,
+        'force': True,
+    }
+
+    response = connect.post(
+        'http://192.168.10.161/api/directions/paraclinic_form',
+        headers=headers,
+        json=json_data,
+        verify=False,
+    )
+    return response.json().get('researches')[0].get('research').get('groups')
