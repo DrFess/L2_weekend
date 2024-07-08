@@ -57,7 +57,6 @@ def add_diaries(connect, history_number):
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://192.168.10.161/ui/stationar',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        'X-CSRFToken': 'SxDRTVyx15Vy03wCdXebph11vhsIhi61',
     }
 
     json_data = {
@@ -85,7 +84,6 @@ def get_pk(connect, diary_number):
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://192.168.10.161/ui/stationar',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        'X-CSRFToken': 'SxDRTVyx15Vy03wCdXebph11vhsIhi61',
     }
 
     json_data = {
@@ -113,7 +111,6 @@ def get_last_diaries(connect, pk):
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://192.168.10.161/ui/stationar',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        'X-CSRFToken': 'SxDRTVyx15Vy03wCdXebph11vhsIhi61',
     }
 
     json_data = {
@@ -141,7 +138,6 @@ def data_by_fields(connect, pk):
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://192.168.10.161/ui/stationar',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        'X-CSRFToken': 'SxDRTVyx15Vy03wCdXebph11vhsIhi61',
     }
 
     json_data = {
@@ -168,7 +164,6 @@ def save_results(connect, pk, pk_2, local_status, history_number, what_inspectio
         'Proxy-Connection': 'keep-alive',
         'Referer': 'http://192.168.10.161/ui/stationar',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        'X-CSRFToken': 'SxDRTVyx15Vy03wCdXebph11vhsIhi61',
     }
 
     json_data = {
